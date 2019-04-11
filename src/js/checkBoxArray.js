@@ -1,11 +1,7 @@
 export const checkBoxes = (selection, props) => {
-  const {
-    label,
-    xfdim,
-    filters
-    //onOptionClicked
-  } = props;
+  const { label, xfdim, xfgroup, filters } = props;
 
+  // semantic-ui checkbox markup:
   //  `<div class="checkbox" id={}>
   //      <label>
   //          <input type="checkbox" value="${}" checked>
@@ -13,40 +9,64 @@ export const checkBoxes = (selection, props) => {
   //      </label>
   //  </div>`
 
-  // all keys in our dimenions
-  let keys = xfdim
-    .group()
-    .all()
-    .map(d => d.key);
+  let myfilters = filters[label];
 
-  let myselect = selection
-    .selectAll("input")
-    .data(keys)
-    .enter();
+  let keys = xfgroup.top("Infinity").filter(d => d.value > 0);
+  //.map(d => d.key);
+  keys.sort((a, b) => a.key - b.key);
 
-  myselect
-    .append("label")
-    .attr("for", d => label + "-" + d)
-    .text(function(d) {
-      return d;
-    })
+  let cbarray = selection
+    .enter()
+    .append("div")
+    .merge(selection);
+
+  let boxes = cbarray.selectAll("div").data(keys, d => d.key);
+
+  boxes.exit().remove();
+
+  let boxesEnter = boxes
+    .enter()
+    .append("div")
+    .attr("class", "inline field");
+
+  boxesEnter = boxesEnter.merge(boxes);
+
+  let uiCheckbox = boxesEnter
+    .append("div")
+
+    .attr("class", "checkbox");
+
+  const get_checked = (x, filters) => {
+    let checked = filters.indexOf(x.key) > -1 ? true : false;
+    if (label === "species") {
+      console.log("checked = ", checked);
+      console.log("filters = ", filters, "; x.key = ", x.key);
+    }
+
+    return checked;
+  };
+
+  uiCheckbox
     .append("input")
-    .attr("checked", true)
     .attr("type", "checkbox")
-    .attr("value", d => d)
-    .attr("id", d => label + "-" + d)
+    .attr("checked", d => get_checked(d, myfilters))
+    .attr("value", d => d.key)
     .on("click", function() {
-      if (this.checked) {
-        filters[label].push(this.value);
-      } else {
-        filters[label] = filters[label].filter(d => d !== this.value);
-      }
-      console.log("filters = ", filters);
+      //console.log("this.checked = ", this.checked);
 
-      xfdim.filter(d => filters[label].indexOf(d) > -1);
+      //debugger;
+      if (this.checked) {
+        // add the value that was just selected.
+        myfilters.push(this.value);
+      } else {
+        // remove the value of the box that was just unchecked
+        myfilters = myfilters.filter(val => val !== this.value);
+      }
+      console.log("myfilters = ", myfilters);
+
+      xfdim.filter(val => myfilters.indexOf(val) > -1);
+      filters[label] = myfilters;
     });
 
-  myselect = myselect.merge(myselect);
-
-  myselect.exit().remove();
+  uiCheckbox.append("label").text(d => d.key + " (n=" + d.value + ")");
 };

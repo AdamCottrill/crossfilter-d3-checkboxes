@@ -20,6 +20,11 @@ if (ENV !== "production") {
 const column = "events";
 const filters = {};
 
+//const updatefilters = (label, newfilters) => {
+//  filters[label] = newfilters;
+//  return filters;
+//};
+
 tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
   let ndx = crossfilter(data);
   let yearDim = ndx.dimension(d => d.year);
@@ -37,7 +42,6 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
   let strainnameGroup = strainnameDim.group().reduceSum(d => d[column]);
 
   //ininitialize our filters - all checked at first
-
   filters["species"] = speciesDim
     .group()
     .all()
@@ -51,10 +55,13 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
     .all()
     .map(d => d.key);
 
+  console.log('filters["species"] = ', filters["species"]);
+
   let yearSelection = select("#year-filter");
   checkBoxes(yearSelection, {
     label: "year",
     xfdim: yearDim,
+    xfgroup: yearGroup,
     filters: filters
   });
 
@@ -62,6 +69,7 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
   checkBoxes(speciesSelection, {
     label: "species",
     xfdim: speciesDim,
+    xfgroup: speciesGroup,
     filters: filters
   });
 
@@ -69,13 +77,29 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
   checkBoxes(clipaSelection, {
     label: "clipa",
     xfdim: clipaDim,
+    xfgroup: clipaGroup,
     filters: filters
   });
 
   ndx.onChange(() => {
-    checkBoxes(yearSelection, { label: "year", xfdim: yearDim });
-    checkBoxes(clipaSelection, { label: "clipa", xfdim: clipaDim });
-    checkBoxes(speciesSelection, { label: "species", xfdim: speciesDim });
+    checkBoxes(yearSelection, {
+      label: "year",
+      xfdim: yearDim,
+      xfgroup: yearGroup,
+      filters: filters
+    });
+    checkBoxes(clipaSelection, {
+      label: "clipa",
+      xfdim: clipaDim,
+      xfgroup: clipaGroup,
+      filters: filters
+    });
+    checkBoxes(speciesSelection, {
+      label: "species",
+      xfdim: speciesDim,
+      xfgroup: speciesGroup,
+      filters: filters
+    });
 
     // console.log(
     //   "yearDim.group.top(Infinity) = ",
