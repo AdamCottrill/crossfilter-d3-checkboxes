@@ -55,14 +55,24 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
     .all()
     .map(d => d.key);
 
-  console.log('filters["species"] = ', filters["species"]);
+  yearDim.filter(val => filters["year"].indexOf(val) > -1);
+  clipaDim.filter(val => filters["clipa"].indexOf(val) > -1);
+  speciesDim.filter(val => filters["species"].indexOf(val) > -1);
+
+  const updatefilters = (label, newfilters) => {
+    filters[label] = newfilters;
+    return filters;
+  };
+
+  //console.log('filters["species"] = ', filters["species"]);
 
   let yearSelection = select("#year-filter");
   checkBoxes(yearSelection, {
     label: "year",
     xfdim: yearDim,
     xfgroup: yearGroup,
-    filters: filters
+    filters: filters,
+    updatefilters: updatefilters
   });
 
   let speciesSelection = select("#species-filter");
@@ -70,7 +80,8 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
     label: "species",
     xfdim: speciesDim,
     xfgroup: speciesGroup,
-    filters: filters
+    filters: filters,
+    updatefilters: updatefilters
   });
 
   let clipaSelection = select("#clipa-filter");
@@ -78,7 +89,8 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
     label: "clipa",
     xfdim: clipaDim,
     xfgroup: clipaGroup,
-    filters: filters
+    filters: filters,
+    updatefilters: updatefilters
   });
 
   ndx.onChange(() => {
@@ -86,19 +98,22 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
       label: "year",
       xfdim: yearDim,
       xfgroup: yearGroup,
-      filters: filters
+      filters: filters,
+      updatefilters: updatefilters
     });
     checkBoxes(clipaSelection, {
       label: "clipa",
       xfdim: clipaDim,
       xfgroup: clipaGroup,
-      filters: filters
+      filters: filters,
+      updatefilters: updatefilters
     });
     checkBoxes(speciesSelection, {
       label: "species",
       xfdim: speciesDim,
       xfgroup: speciesGroup,
-      filters: filters
+      filters: filters,
+      updatefilters: updatefilters
     });
 
     // console.log(
