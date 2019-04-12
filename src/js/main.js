@@ -20,11 +20,6 @@ if (ENV !== "production") {
 const column = "events";
 const filters = {};
 
-//const updatefilters = (label, newfilters) => {
-//  filters[label] = newfilters;
-//  return filters;
-//};
-
 tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
   let ndx = crossfilter(data);
   let yearDim = ndx.dimension(d => d.year);
@@ -63,8 +58,6 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
     filters[label] = newfilters;
     return filters;
   };
-
-  //console.log('filters["species"] = ', filters["species"]);
 
   let yearSelection = select("#year-filter");
   checkBoxes(yearSelection, {
@@ -115,10 +108,5 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
       filters: filters,
       updatefilters: updatefilters
     });
-
-    // console.log(
-    //   "yearDim.group.top(Infinity) = ",
-    //   yearDim.group().top(Infinity)
-    //);
   });
 });
