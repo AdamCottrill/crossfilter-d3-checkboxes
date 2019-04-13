@@ -1,5 +1,5 @@
 export const checkBoxes = (selection, props) => {
-  const { label, xfdim, xfgroup, filters, updatefilters } = props;
+  const { label, xfdim, xfgroup, filters } = props;
 
   // semantic-ui checkbox markup:
   //  `<div class="checkbox" id={}>
@@ -25,6 +25,39 @@ export const checkBoxes = (selection, props) => {
     .enter()
     .append("div")
     .merge(selection);
+
+  let clearAll = cbarray
+    .selectAll(".clear-link")
+    .data([null])
+    .enter()
+    .append("a")
+    .attr("class", "clear-link")
+    .attr("href", "#")
+    .text("Clear All")
+    .on("click", function() {
+      let checkboxes = cbarray
+        .selectAll("input[type=checkbox]")
+        .property("checked", false);
+      filters[label] = [];
+      xfdim.filter();
+    });
+
+  let selectAll = cbarray
+    .selectAll(".select-link")
+    .data([null])
+    .enter()
+    .append("a")
+    .attr("class", "select-link")
+    .attr("href", "#")
+    .classed("ui right floated", true)
+    .text("Select All")
+    .on("click", function() {
+      let checkboxes = cbarray
+        .selectAll("input[type=checkbox]")
+        .property("checked", true);
+      filters[label] = keys.map(d => d.key);
+      xfdim.filter(val => myfilters.indexOf(val) > -1);
+    });
 
   let boxes = cbarray.selectAll("div").data(keys, d => d.key);
 
@@ -54,7 +87,7 @@ export const checkBoxes = (selection, props) => {
         // remove the value of the box that was just unchecked
         myfilters = myfilters.filter(val => val !== this.value);
       }
-      updatefilters(label, myfilters);
+      filters[label] = myfilters;
       xfdim.filter(val => myfilters.indexOf(val) > -1);
     });
 

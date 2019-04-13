@@ -54,18 +54,12 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
   clipaDim.filter(val => filters["clipa"].indexOf(val) > -1);
   speciesDim.filter(val => filters["species"].indexOf(val) > -1);
 
-  const updatefilters = (label, newfilters) => {
-    filters[label] = newfilters;
-    return filters;
-  };
-
   let yearSelection = select("#year-filter");
   checkBoxes(yearSelection, {
     label: "year",
     xfdim: yearDim,
     xfgroup: yearGroup,
-    filters: filters,
-    updatefilters: updatefilters
+    filters: filters
   });
 
   let speciesSelection = select("#species-filter");
@@ -73,8 +67,7 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
     label: "species",
     xfdim: speciesDim,
     xfgroup: speciesGroup,
-    filters: filters,
-    updatefilters: updatefilters
+    filters: filters
   });
 
   let clipaSelection = select("#clipa-filter");
@@ -82,8 +75,7 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
     label: "clipa",
     xfdim: clipaDim,
     xfgroup: clipaGroup,
-    filters: filters,
-    updatefilters: updatefilters
+    filters: filters
   });
 
   ndx.onChange(() => {
@@ -91,22 +83,19 @@ tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
       label: "year",
       xfdim: yearDim,
       xfgroup: yearGroup,
-      filters: filters,
-      updatefilters: updatefilters
+      filters: filters
     });
     checkBoxes(clipaSelection, {
       label: "clipa",
       xfdim: clipaDim,
       xfgroup: clipaGroup,
-      filters: filters,
-      updatefilters: updatefilters
+      filters: filters
     });
     checkBoxes(speciesSelection, {
       label: "species",
       xfdim: speciesDim,
       xfgroup: speciesGroup,
-      filters: filters,
-      updatefilters: updatefilters
+      filters: filters
     });
   });
 });

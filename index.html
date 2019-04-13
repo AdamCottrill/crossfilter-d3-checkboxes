@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Crossfilter-Rollup</title>
+        <title>D3-Crossfilter Checkboxes</title>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
         <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
@@ -11,108 +11,58 @@
     </head>
     <body>
 
-
         <div  class="ui container" >
             <h2>Filter with Checkbox Arrays</h2>
 
-            <div class="ui form">
-                <div class="inline field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" tabindex="0" class="hidden">
-                        <label>Checkbox-1</label>
+            <div className="ui container">
+                <div className="row">
+
+                    <div class="ui card">
+                        <div class="content">
+                            <div class="header">Year</div>
+                        </div>
+                        <div class="content">
+                            <div id="year-filter"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="inline field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" tabindex="0" class="hidden">
-                        <label>Checkbox-2</label>
+
+                    <div class="ui card">
+                        <div class="content">
+                            <div class="header">Species</div>
+                        </div>
+                        <div class="content">
+                            <div id="species-filter"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="inline field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" tabindex="0" class="hidden">
-                        <label>Checkbox-3</label>
+
+                    <div class="ui card">
+                        <div class="content">
+                            <div class="header">Clip Applied</div>
+                        </div>
+                        <div class="content">
+                            <div id="clipa-filter"></div>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
 
-            <div class="row">
+        </div>
 
-                <div class="form-group">
-
-                    <div class="checkbox">
-                        <label for="2011a">
-                            <input id ="2011a" type="checkbox" value="2011">
-                            2011
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="2012" checked>
-                            2012
-                        </label>
-                    </div>
-
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="2013">
-                            2013
-                        </label>
-                    </div>
+        <script type="text/javascript" src="bundle.js"></script>
 
 
-                </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 
-
-                <div class="ui card">
-                    <div class="content">
-                        <div class="header">Year</div>
-                    </div>
-                    <div class="content">
-                        <div id="year-filter"></div>
-                    </div>
-                </div>
-
-
-                <div class="ui card">
-                    <div class="content">
-                        <div class="header">Species</div>
-                    </div>
-                    <div class="content">
-                        <div id="species-filter"></div>
-                    </div>
-                </div>
-
-                <div class="ui card">
-                    <div class="content">
-                        <div class="header">Clip Applied</div>
-                    </div>
-                    <div class="content">
-                        <div id="clipa-filter"></div>
-                    </div>
-                </div>
-
-
-
-
-            </div>
-
-            <script type="text/javascript" src="bundle.js"></script>
-
-
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-            <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-
-
-            <script type="text/javascript">
-             $('.ui.checkbox')
-                 .checkbox()
-             ;
-            </script>
+        <script type="text/javascript">
+         $('.ui.checkbox')
+             .checkbox()
+         ;
+        </script>
 
 
     </body>
