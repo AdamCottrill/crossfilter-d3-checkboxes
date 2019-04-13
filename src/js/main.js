@@ -1,7 +1,5 @@
 import debug from "debug";
 
-import { prepare_data } from "./utils";
-
 import { tsv, select } from "d3";
 import crossfilter from "crossfilter2";
 
@@ -17,84 +15,91 @@ if (ENV !== "production") {
   debug.disable();
 }
 
-const column = "events";
+const prepare_data = (data) => {
+    return {
+        category: data.category,
+        color: data.color,
+        group: data.group,
+        count: +data.count
+    };
+};
+
+// the name of the column with our response:
+const column = "count";
+
 const filters = {};
 
-tsv("data/SomeStockingData.tsv", prepare_data).then(data => {
-  let ndx = crossfilter(data);
-  let yearDim = ndx.dimension(d => d.year);
-  let clipaDim = ndx.dimension(d => d.clipa);
-  let dev_descDim = ndx.dimension(d => d.dev_desc);
-  let gridDim = ndx.dimension(d => d.grid);
-  let speciesDim = ndx.dimension(d => d.species);
-  let strainnameDim = ndx.dimension(d => d.strainname);
+tsv("data/data.tsv", prepare_data).then(data => {
 
-  let yearGroup = yearDim.group().reduceSum(d => d[column]);
-  let clipaGroup = clipaDim.group().reduceSum(d => d[column]);
-  let dev_descGroup = dev_descDim.group().reduceSum(d => d[column]);
-  let gridGroup = gridDim.group().reduceSum(d => d[column]);
-  let speciesGroup = speciesDim.group().reduceSum(d => d[column]);
-  let strainnameGroup = strainnameDim.group().reduceSum(d => d[column]);
+  let ndx = crossfilter(data);
+  let categoryDim = ndx.dimension(d => d.category);
+  let groupDim = ndx.dimension(d => d.group);
+  let colorDim = ndx.dimension(d => d.color);
+
+  let categoryGroup = categoryDim.group().reduceSum(d => d[column]);
+  let groupGroup = groupDim.group().reduceSum(d => d[column]);
+  let colorGroup = colorDim.group().reduceSum(d => d[column]);
+
 
   //ininitialize our filters - all checked at first
-  filters["species"] = speciesDim
+  filters["color"] = colorDim
     .group()
     .all()
     .map(d => d.key);
-  filters["year"] = yearDim
+  filters["category"] = categoryDim
     .group()
     .all()
     .map(d => d.key);
-  filters["clipa"] = clipaDim
+  filters["group"] = groupDim
     .group()
     .all()
     .map(d => d.key);
 
-  yearDim.filter(val => filters["year"].indexOf(val) > -1);
-  clipaDim.filter(val => filters["clipa"].indexOf(val) > -1);
-  speciesDim.filter(val => filters["species"].indexOf(val) > -1);
+  categoryDim.filter(val => filters["category"].indexOf(val) > -1);
+  groupDim.filter(val => filters["group"].indexOf(val) > -1);
+  colorDim.filter(val => filters["color"].indexOf(val) > -1);
 
-  let yearSelection = select("#year-filter");
-  checkBoxes(yearSelection, {
-    label: "year",
-    xfdim: yearDim,
-    xfgroup: yearGroup,
+  let categorySelection = select("#category-filter");
+  checkBoxes(categorySelection, {
+    label: "category",
+    xfdim: categoryDim,
+    xfgroup: categoryGroup,
     filters: filters
   });
 
-  let speciesSelection = select("#species-filter");
-  checkBoxes(speciesSelection, {
-    label: "species",
-    xfdim: speciesDim,
-    xfgroup: speciesGroup,
+  let colorSelection = select("#color-filter");
+  checkBoxes(colorSelection, {
+    label: "color",
+    xfdim: colorDim,
+    xfgroup: colorGroup,
     filters: filters
   });
 
-  let clipaSelection = select("#clipa-filter");
-  checkBoxes(clipaSelection, {
-    label: "clipa",
-    xfdim: clipaDim,
-    xfgroup: clipaGroup,
+  let groupSelection = select("#group-filter");
+  checkBoxes(groupSelection, {
+    label: "group",
+    xfdim: groupDim,
+    xfgroup: groupGroup,
     filters: filters
   });
 
   ndx.onChange(() => {
-    checkBoxes(yearSelection, {
-      label: "year",
-      xfdim: yearDim,
-      xfgroup: yearGroup,
+    checkBoxes(categorySelection, {
+      label: "category",
+      xfdim: categoryDim,
+      xfgroup: categoryGroup,
       filters: filters
     });
-    checkBoxes(clipaSelection, {
-      label: "clipa",
-      xfdim: clipaDim,
-      xfgroup: clipaGroup,
+    checkBoxes(groupSelection, {
+      label: "group",
+      xfdim: groupDim,
+      xfgroup: groupGroup,
       filters: filters
     });
-    checkBoxes(speciesSelection, {
-      label: "species",
-      xfdim: speciesDim,
-      xfgroup: speciesGroup,
+    checkBoxes(colorSelection, {
+      label: "color",
+      xfdim: colorDim,
+      xfgroup: colorGroup,
       filters: filters
     });
   });
