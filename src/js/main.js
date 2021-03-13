@@ -1,6 +1,7 @@
 import debug from "debug";
 
-import { tsv, select, selectAll } from "d3";
+import { tsv } from "d3-fetch";
+import { select, selectAll } from "d3-selection";
 import crossfilter from "crossfilter2";
 
 import { checkBoxes } from "./checkBoxArray";

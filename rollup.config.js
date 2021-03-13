@@ -21,7 +21,7 @@ export default {
     name: "MyModule",
     file: "bundle.js",
     format: "iife",
-    sourceMap: "inline",
+    sourcemap: "inline",
     globals: {
       d3: "d3",
       crossfilter2: "crossfilter",
