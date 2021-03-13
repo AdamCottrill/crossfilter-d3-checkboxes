@@ -49,6 +49,7 @@ export default {
     process.env.NODE_ENV === "production" && terser(),
     babel({
       exclude: "node_modules/**",
+      babelHelpers: "bundled",
     }),
   ],
 };

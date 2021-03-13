@@ -1,5 +1,5 @@
 export const checkBoxes = (selection, props) => {
-  const { label, xfdim, xfgroup, filters } = props;
+  const { label, popup, xfdim, xfgroup, filters } = props;
 
   // semantic-ui checkbox markup:
   //  `<div class="checkbox" id={}>
@@ -64,7 +64,10 @@ export const checkBoxes = (selection, props) => {
 
   boxesEnter = boxesEnter.merge(boxes);
 
-  let uiCheckbox = boxesEnter.append("div").attr("class", "ui checkbox");
+  let uiCheckbox = boxesEnter
+    .append("div")
+    .attr("class", "ui tiny checkbox")
+    .attr("data-tooltip", (d) => popup[d.key]);
 
   uiCheckbox
     .append("input")
