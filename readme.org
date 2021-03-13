@@ -5,4 +5,4 @@ be created (or destroyed) to reflect currently available dimensions in
 a crossfilter2 object. They function essentially the same as plots
 created using dc.js but with check boxes.
 
-[[file:ScreenShot.png][crossfilter-d3-checkboxes]]
+[[file:ScreenShot.png]]
