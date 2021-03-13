@@ -9,6 +9,6 @@ export function prepare_data(data) {
     strainname: data.strainname,
     nostocked: +data.nostocked,
     yreq: +data.yreq,
-    events: +data.events
+    events: +data.events,
   };
 }
