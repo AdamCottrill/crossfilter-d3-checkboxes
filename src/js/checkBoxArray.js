@@ -39,7 +39,7 @@ export const checkBoxes = (selection, props) => {
       xfdim.filter();
     });
 
-  let selectAll = cbarray
+  let checkAll = cbarray
     .selectAll(".select-link")
     .data([null])
     .enter()
@@ -60,11 +60,11 @@ export const checkBoxes = (selection, props) => {
 
   boxes.exit().remove();
 
-  let boxesEnter = boxes.enter().append("div").attr("class", "inline field");
+  let boxesEnter = boxes.enter().append("div").attr("class", "field");
 
   boxesEnter = boxesEnter.merge(boxes);
 
-  let uiCheckbox = boxesEnter.append("div").attr("class", "checkbox");
+  let uiCheckbox = boxesEnter.append("div").attr("class", "ui checkbox");
 
   uiCheckbox
     .append("input")
